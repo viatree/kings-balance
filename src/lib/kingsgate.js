@@ -37,7 +37,6 @@ export async function getAccessToken() {
       return await tryAuth(u);
     } catch (e) {
       lastErr = e;
-      // kalau 404/400, lanjut coba path berikutnya
       if (!e.response || (e.response.status !== 404 && e.response.status !== 400)) break;
     }
   }
@@ -77,7 +76,7 @@ export async function createPayout(accessToken, payload) {
       },
       timeout: 15000,
     });
-    return res.data; // { status: 201, data: {...} }
+    return res.data;
   } catch (e) {
     if (e.response) {
       throw new Error(`Payout ${e.response.status}: ${JSON.stringify(e.response.data)}`);
@@ -87,14 +86,13 @@ export async function createPayout(accessToken, payload) {
 }
 
 export async function getPayoutStatus(accessToken, orderId) {
-  // Dokumen: GET /api/payout/order-status/:orderId
   const url = `${KG_BASE_URL}/api/payout/order-status/${encodeURIComponent(orderId)}`;
   try {
     const res = await axios.get(url, {
       headers: { Authorization: `Bearer ${accessToken}` },
       timeout: 10000,
     });
-    return res.data; // { httpStatus: 200, data: {...} }
+    return res.data;
   } catch (e) {
     if (e.response) {
       throw new Error(`PayoutStatus ${e.response.status}: ${JSON.stringify(e.response.data)}`);

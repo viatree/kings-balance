@@ -4,7 +4,7 @@ export default function handler(req, res) {
   try {
     if (req.method !== 'POST') return res.status(405).end();
     const { signature } = req.body;
-    if (!signature) return res.status(400).json({ error: 'signature tidak ada' });
+    if (!signature) return res.status(400).json({ error: 'Missing signature' });
     
     const payload = jwt.verify(signature, process.env.MERCHANT_API_KEY);
     console.log('Webhook verified:', payload);
