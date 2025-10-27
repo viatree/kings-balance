@@ -25,7 +25,7 @@ export default function Home() {
       <button onClick={checkBalance} disabled={loading}>
         {loading ? 'Checking...' : 'Check Balance'}
       </button>
-      {balance !== null && <p>Saldo: <strong>{balance}</strong></p>}
+      {balance !== null && <p>Balance: <strong>{balance}</strong></p>}
       {err && <p style={{ color: 'red' }}>{err}</p>}
       <p style={{ marginTop: 20, opacity: 0.7 }}>
         Please run the bot via <code>/api/health</code> to start Telegram polling.
