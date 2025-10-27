@@ -28,7 +28,7 @@ export default function Home() {
       {balance !== null && <p>Saldo: <strong>{balance}</strong></p>}
       {err && <p style={{ color: 'red' }}>{err}</p>}
       <p style={{ marginTop: 20, opacity: 0.7 }}>
-        Jalankan bot lewat <code>/api/health</code> untuk memulai polling Telegram.
+        Please run the bot via <code>/api/health</code> to start Telegram polling.
       </p>
     </main>
   );
