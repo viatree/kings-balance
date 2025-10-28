@@ -6,7 +6,7 @@ let bot = null;
 
 export function initTelegramBot() {
   if (!token) {
-    console.warn('TELEGRAM_BOT_TOKEN Hasn\'t been set yet');
+    console.warn("TELEGRAM_BOT_TOKEN hasn't been set yet");
     return;
   }
   if (bot) return bot;
@@ -14,7 +14,10 @@ export function initTelegramBot() {
   bot = new TelegramBot(token, { polling: true });
 
   bot.onText(/^\/start$/i, (msg) => {
-    bot.sendMessage(msg.chat.id, `Halo ${msg.from?.first_name || ''}! Type /balance for check balance.`);
+    bot.sendMessage(
+      msg.chat.id,
+      `Halo ${msg.from?.first_name || ''}! Type /balance to check your balance.`
+    );
   });
 
   bot.onText(/^\/balance$/i, async (msg) => {
@@ -23,7 +26,15 @@ export function initTelegramBot() {
       await bot.sendChatAction(chatId, 'typing');
       const accessToken = await getAccessToken();
       const balance = await getBalance(accessToken);
-      bot.sendMessage(chatId, `💰 merchant account balance: *${balance}*`, { parse_mode: 'Markdown' });
+
+      // Display balance with two decimal places
+      const formattedBalance = Number(balance).toFixed(2);
+
+      bot.sendMessage(
+        chatId,
+        `💰 Merchant account balance: *${formattedBalance}*`,
+        { parse_mode: 'Markdown' }
+      );
     } catch (e) {
       bot.sendMessage(chatId, `Failed to retrieve balance. ${e.message || ''}`);
     }
